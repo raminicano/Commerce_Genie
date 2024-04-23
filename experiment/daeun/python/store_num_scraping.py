@@ -8,9 +8,20 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
 
-driver = webdriver.Chrome()
-print(type(driver))
-print('-' * 50)
+chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument("--headless")
+
+# linux 환경에서 필요한 option
+chrome_options.add_argument('--no-sandbox')
+chrome_options.add_argument('--disable-dev-shm-usage')
+
+# excutable_path는 chromdriver가 위치한 경로를 적어주면 된다. 
+# code와 동일한 경로일 경우 아래처럼 'chromdriver' 만 적어주거나 아예 excutable_path 자체가 없어도 된다. 이해를 위해 써놓았을 뿐. 
+# ex) driver = webdriver.Chrome(options=chrome_options)
+
+# driver = webdriver.Chrome(excutable_path =‘/usr/local/chromedriver', options=chrome_options)
+driver = webdriver.Chrome(options=chrome_options)
+
 
 print('Go Google~!!')
 url = 'https://golmok.seoul.go.kr/stateArea.do'
