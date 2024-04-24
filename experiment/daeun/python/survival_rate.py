@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #%%
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 import time
 import wait
@@ -298,43 +299,26 @@ def district_print(body_tag_district):
     print(f"검색한 구의 3년 생존율은 {district[9]} 입니다.")
     print(f"검색한 구의 5년 생존율은 {district[10]} 입니다.")
 
-    # 그래프 이름과 값 초기화
-    years = ['2021', '2022', '2023']
-    print(district[2])
-    values_2021 = [district[2], district[5], district[8]]  # 2021년 그래프의 값
-    values_2022 = [district[3], district[6], district[9]]  # 2022년 그래프의 값
-    values_2023 = [district[4], district[7], district[10]]  # 2023년 그래프의 값
+    a=[district[2],district[5],district[8]]
+    b=[district[3],district[6],district[9]]
+    c=[district[4],district[7],district[10]]
+    year=['2021','2022','2023']
 
-    # 막대 그래프의 너비 설정
-    bar_width = 0.2
+    df = pd.DataFrame({'1년 생존율':a,'3년 생존율':b,'5년 생존율':c},index=year)
 
-    # X축 위치 계산
-    r1 = np.arange(len(values_2021))
-    r2 = [x + bar_width for x in r1]
-    r3 = [x + bar_width for x in r2]
+    fig,ax = plt.subplots(figsize=(12,6))
+    bar_width = 0.25
+    index = np.arange(len(year))
+    b1 = plt.bar(index,df['1년 생존율'],bar_width,alpha=0.4,color='red',label='1년 생존율')
+    b2 = plt.bar(index+bar_width,df['3년 생존율'],bar_width,alpha=0.4,color='blue',label='3년 생존율')
+    b3 = plt.bar(index+2*bar_width,df['5년 생존율'],bar_width,alpha=0.4,color='green',label='5년 생존율')
+    plt.xticks(np.arange(bar_width, 3 + bar_width, 1), year)
 
-    # 그래프 그리기
-    plt.figure(figsize=(10, 6))  # 전체 그래프 프레임 크기 설정
-
-    # 2021년 그래프
-    plt.bar(r1, values_2021, color='skyblue', width=bar_width,edgecolor='grey',label=f'{district[0]}의 1년 생존율')
-
-    # 2022년 그래프
-    plt.bar(r2, values_2022, color='lightgreen', width=bar_width,edgecolor='grey', label=f'{district[0]}의 3년 생존율')
-
-    # 2023년 그래프
-    plt.bar(r3, values_2023, color='salmon', width=bar_width,edgecolor='grey', label=f'{district[0]}의 5년 생존율')
-
-    # X축 설정
-    plt.xlabel('2021~2023년', fontweight='bold')
-    plt.xticks([r + bar_width for r in range(len(values_2021))], ['2021년', '2022년', '2023년'])
-    print([r + bar_width for r in range(len(values_2021))])
-
-    # 그래프 제목 설정
-    plt.title(f'{district[0]}3년의 값의 추이', fontweight='bold', fontsize=14)
-
-    # 범례 표시
+    #### x축, y축 이름 및 범례 설정
+    plt.xlabel(f'3년의 {district[0]}의 신생기업 생존율 ', size = 13)
+    plt.ylabel('생존율', size = 13)
     plt.legend()
+
     filename = 'p249_seriesGraph.png'
 
     plt.savefig(filename, dpi=400, bbox_inches='tight')
@@ -384,6 +368,36 @@ def region_print(body_tag_region):
     print(f"검색한 동의 1년 생존율은  {region[8]} 입니다.")
     print(f"검색한 동의 3년 생존율은 {region[9]} 입니다.")
     print(f"검색한 동의 5년 생존율은 {region[10]} 입니다.")
+
+    a=[region[2],region[5],region[8]]
+    b=[region[3],region[6],region[9]]
+    c=[region[4],region[7],region[10]]
+    year=['2021','2022','2023']
+
+    df = pd.DataFrame({'1년 생존율':a,'3년 생존율':b,'5년 생존율':c},index=year)
+
+    fig,ax = plt.subplots(figsize=(12,6))
+    bar_width = 0.25
+    index = np.arange(len(year))
+    b1 = plt.bar(index,df['1년 생존율'],bar_width,alpha=0.4,color='red',label='1년 생존율')
+    b2 = plt.bar(index+bar_width,df['3년 생존율'],bar_width,alpha=0.4,color='blue',label='3년 생존율')
+    b3 = plt.bar(index+2*bar_width,df['5년 생존율'],bar_width,alpha=0.4,color='green',label='5년 생존율')
+    plt.xticks(np.arange(bar_width, 3 + bar_width, 1), year)
+
+    #### x축, y축 이름 및 범례 설정
+    plt.xlabel(f'3년의 {region[0]}의 신생기업 생존율 ', size = 13)
+    plt.ylabel('생존율', size = 13)
+    plt.legend()
+
+    filename = 'Servival.png'
+
+    plt.savefig(filename, dpi=400, bbox_inches='tight')
+
+    # 그래프 표시
+    plt.show()
+
+
+    print(filename + 'Saved...')
 
 selectop = select(option)
 

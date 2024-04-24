@@ -1,5 +1,8 @@
+#%%
 #!/usr/bin/env python
-
+import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 import time
 import wait
 from selenium import webdriver
@@ -7,6 +10,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from bs4 import BeautifulSoup
+
+plt.rcParams['font.family'] = 'NanumBarunGothic'
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")
@@ -299,6 +304,35 @@ def district_print(body_tag_district):
     print(f"검색한 구의 전체 점포수는  {district[8]} 입니다.")
     print(f"검색한 구의 프랜차이즈 점포수는 {district[9]} 입니다.")
     print(f"검색한 구의 일반 점포수는 {district[10]} 입니다.")
+
+    a=[district[2],district[5],district[8]]
+    b=[district[3],district[6],district[9]]
+    c=[district[4],district[7],district[10]]
+    year=['2021','2022','2023']
+
+    df = pd.DataFrame({'전체 점포수':a,'프랜차이즈 점포수':b,'일반 점포수':c},index=year)
+
+    fig,ax = plt.subplots(figsize=(12,6))
+    bar_width = 0.25
+    index = np.arange(len(year))
+    b1 = plt.bar(index,df['전체 점포수'],bar_width,alpha=0.4,color='red',label='전체 점포수')
+    b2 = plt.bar(index+bar_width,df['프랜차이즈 점포수'],bar_width,alpha=0.4,color='blue',label='프랜차이즈 점포수')
+    b3 = plt.bar(index+2*bar_width,df['일반 점포수'],bar_width,alpha=0.4,color='green',label='일반 점포수')
+    plt.xticks(np.arange(bar_width, 3 + bar_width, 1), year)
+
+    #### x축, y축 이름 및 범례 설정
+    plt.xlabel(f'3년의 {district[0]}의 점포수', size = 13)
+    plt.ylabel('점포수', size = 13)
+    plt.legend()
+
+    filename = 'Store_Graph.png'
+
+    plt.savefig(filename, dpi=400, bbox_inches='tight')
+
+    # 그래프 표시
+    plt.show()
+    print(filename + 'Saved...')
+    
 def region_print(body_tag_region):
     b = get_region(region_name)
     refine= body_tag_region[b[1]]
@@ -338,6 +372,37 @@ def region_print(body_tag_region):
     print(f"검색한 동의 프랜차이즈 점포수는 {region[9]} 입니다.")
     print(f"검색한 동의 일반 점포수는 {region[10]} 입니다.")
 
+    a=[region[2],region[5],region[8]]
+    b=[region[3],region[6],region[9]]
+    c=[region[4],region[7],region[10]]
+    year=['2021','2022','2023']
+
+    df = pd.DataFrame({'전체 점포수':a,'프랜차이즈 점포수':b,'일반 점포수':c},index=year)
+
+    fig,ax = plt.subplots(figsize=(12,6))
+    bar_width = 0.25
+    index = np.arange(len(year))
+    b1 = plt.bar(index,df['전체 점포수'],bar_width,alpha=0.4,color='red',label='전체 점포수')
+    b2 = plt.bar(index+bar_width,df['프랜차이즈 점포수'],bar_width,alpha=0.4,color='blue',label='프랜차이즈 점포수')
+    b3 = plt.bar(index+2*bar_width,df['일반 점포수'],bar_width,alpha=0.4,color='green',label='일반 점포수')
+    plt.xticks(np.arange(bar_width, 3 + bar_width, 1), year)
+
+    #### x축, y축 이름 및 범례 설정
+    plt.xlabel(f'3년의 {region[0]}의 점포수 ', size = 13)
+    plt.ylabel('생존율', size = 13)
+    plt.legend()
+
+    filename = 'Store.png'
+
+    plt.savefig(filename, dpi=400, bbox_inches='tight')
+
+    # 그래프 표시
+    plt.show()
+
+
+    print(filename + 'Saved...')
+    
+
 selectop = select(option)
 
 if selectop == 0:
@@ -365,3 +430,4 @@ time.sleep(wait)
 
 driver.quit()
 print('Browser Exit~!!')
+# %%
